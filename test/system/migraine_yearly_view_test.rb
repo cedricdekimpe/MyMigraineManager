@@ -19,6 +19,7 @@ class MigraineYearlyViewTest < ApplicationSystemTestCase
 
       click_link "Yearly overview"
       assert_text "Selected year"
+      assert_link "Export yearly PDF"
       assert_selector "[data-month='2025-01'] td[data-day='5'][data-attribute='nature']", text: "M"
       assert_selector "[data-month='2025-06'] td[data-day='10'][data-attribute='medication'] span[title='Triptan']", text: "T"
     end

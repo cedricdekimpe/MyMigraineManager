@@ -1,3 +1,5 @@
+require_dependency "migraines/yearly_report_pdf"
+
 class MigrainesController < ApplicationController
   before_action :set_current_month, only: :index
   before_action :set_days, only: %i[index yearly]
@@ -21,11 +23,16 @@ class MigrainesController < ApplicationController
     @months = (0..11).map { |offset| start_of_year.advance(months: offset) }
 
     yearly_migraines = current_user.migraines.where(occurred_on: start_of_year..end_of_year)
-    grouped_by_month = yearly_migraines.group_by { |migraine| migraine.occurred_on.beginning_of_month }
+    @grouped_migraines = yearly_migraines.group_by { |migraine| migraine.occurred_on.beginning_of_month }
 
     @calendars_by_month = @months.index_with do |month|
-      entries = grouped_by_month[month] || []
+      entries = @grouped_migraines[month] || []
       entries.index_by { |migraine| migraine.occurred_on.day }
+    end
+
+    respond_to do |format|
+      format.html
+      format.pdf { send_yearly_pdf }
     end
   end
 
@@ -77,5 +84,20 @@ class MigrainesController < ApplicationController
 
   def migraine_params
     params.require(:migraine).permit(:occurred_on, :nature, :intensity, :on_period, :medication_id)
+  end
+
+  def send_yearly_pdf
+    pdf = ::Migraines::YearlyReportPdf.new(
+      user: current_user,
+      year: @current_year,
+      months: @months,
+      grouped_migraines: @grouped_migraines,
+      days: @days
+    ).render
+
+    send_data pdf,
+      filename: "migraine-overview-#{@current_year}.pdf",
+      type: "application/pdf",
+      disposition: "attachment"
   end
 end
