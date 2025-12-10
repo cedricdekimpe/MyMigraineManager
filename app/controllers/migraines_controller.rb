@@ -1,12 +1,31 @@
 class MigrainesController < ApplicationController
   before_action :set_current_month, only: :index
+  before_action :set_days, only: %i[index yearly]
 
   def index
     migraines = current_user.migraines.for_month(@current_month)
     @migraines_by_day = migraines.index_by { |migraine| migraine.occurred_on.day }
-    @days = (1..31).to_a
     @previous_month = @current_month.prev_month
     @next_month = @current_month.next_month
+  end
+
+  def yearly
+    @current_year = extract_year
+    @previous_year = @current_year - 1
+    @next_year = @current_year + 1
+
+    start_of_year = safe_date(@current_year, 1, 1)
+    end_of_year = start_of_year.end_of_year
+
+    @months = (0..11).map { |offset| start_of_year.advance(months: offset) }
+
+    yearly_migraines = current_user.migraines.where(occurred_on: start_of_year..end_of_year)
+    grouped_by_month = yearly_migraines.group_by { |migraine| migraine.occurred_on.beginning_of_month }
+
+    @calendars_by_month = @months.index_with do |month|
+      entries = grouped_by_month[month] || []
+      entries.index_by { |migraine| migraine.occurred_on.day }
+    end
   end
 
   def new
@@ -33,6 +52,22 @@ class MigrainesController < ApplicationController
     end
   rescue Date::Error
     Date.current.beginning_of_month
+  end
+
+  def set_days
+    @days = (1..31).to_a
+  end
+
+  def extract_year
+    return Date.current.year if params[:year].blank?
+
+    Integer(params[:year], exception: false) || Date.current.year
+  end
+
+  def safe_date(year, month, day)
+    Date.new(year, month, day)
+  rescue ArgumentError
+    Date.current.beginning_of_year
   end
 
   def migraine_params
