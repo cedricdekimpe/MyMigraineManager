@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1
+# syntax=docker/dockerfile:1.7
 # check=error=true
 
 # This Dockerfile is designed for production, not development. Use with Kamal or build'n'run by hand:
@@ -9,7 +9,9 @@
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version
 ARG RUBY_VERSION=3.2.3
-FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
+ARG BUNDLE_WITHOUT=development:test
+FROM docker.io/library/ruby:${RUBY_VERSION}-slim AS base
+ARG BUNDLE_WITHOUT
 
 # Rails app lives here
 WORKDIR /rails
@@ -24,11 +26,13 @@ RUN apt-get update -qq && \
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development" \
+    BUNDLE_WITHOUT="${BUNDLE_WITHOUT}" \
     LD_PRELOAD="/usr/local/lib/libjemalloc.so"
 
 # Throw-away build stage to reduce size of final image
 FROM base AS build
+ARG RUBY_VERSION
+ARG BUNDLE_WITHOUT
 
 # Install packages needed to build gems
 RUN apt-get update -qq && \
@@ -45,6 +49,8 @@ RUN bundle install && \
 
 # Copy application code
 COPY . .
+
+RUN test "${RUBY_VERSION}" = "$(sed 's/ruby-//' .ruby-version)" || (echo "RUBY_VERSION ${RUBY_VERSION} does not match $(cat .ruby-version)" && exit 1)
 
 # Precompile bootsnap code for faster boot times.
 # -j 1 disable parallel compilation to avoid a QEMU bug: https://github.com/rails/bootsnap/issues/495
