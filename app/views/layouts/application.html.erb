@@ -23,8 +23,34 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="bg-slate-50 min-h-screen">
+    <header class="border-b border-slate-200 bg-white">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
+        <%= link_to "My Migraine Manager", root_path, class: "text-lg font-semibold text-slate-900" %>
+        <nav class="flex items-center gap-3 text-sm">
+          <% if user_signed_in? %>
+            <span class="text-slate-500">Signed in as <%= current_user.email %></span>
+            <%= button_to "Sign out", destroy_user_session_path,
+                method: :delete,
+                class: "rounded-md border border-slate-300 bg-white px-3 py-1.5 font-medium text-slate-700 transition hover:border-slate-400 hover:text-slate-900",
+                form: { class: "inline-block" } %>
+          <% else %>
+            <%= link_to "Sign in", new_user_session_path, class: "rounded-md border border-transparent px-3 py-1.5 font-medium text-slate-700 transition hover:text-slate-900" %>
+            <%= link_to "Create account", new_user_registration_path, class: "rounded-md bg-emerald-600 px-3 py-1.5 font-semibold text-white transition hover:bg-emerald-700" %>
+          <% end %>
+        </nav>
+      </div>
+    </header>
+
+    <main class="mx-auto flex w-full max-w-4xl flex-col gap-6 px-5 py-10">
+      <% flash.each do |type, message| %>
+        <% next if message.blank? %>
+        <% tone = type.to_sym == :alert ? "border-rose-200 bg-rose-50 text-rose-700" : "border-emerald-200 bg-emerald-50 text-emerald-700" %>
+        <div class="rounded-md border px-4 py-3 text-sm <%= tone %>" role="alert">
+          <p class="font-medium"><%= message %></p>
+        </div>
+      <% end %>
+
       <%= yield %>
     </main>
   </body>
