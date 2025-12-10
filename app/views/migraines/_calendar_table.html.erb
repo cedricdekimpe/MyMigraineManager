@@ -34,7 +34,7 @@
         <th scope="row" class="sticky left-0 bg-white px-4 py-3 text-left font-medium text-slate-700">Medication</th>
         <% days.each do |day| %>
           <% migraine = migraines_by_day[day] %>
-          <td class="<%= migraine_cell_classes(day, month) %>" data-day="<%= day %>" data-attribute="medication"><%= migraine&.medication.presence || "–" %></td>
+          <td class="<%= migraine_cell_classes(day, month) %>" data-day="<%= day %>" data-attribute="medication"><%= medication_display(migraine) %></td>
         <% end %>
       </tr>
     </tbody>

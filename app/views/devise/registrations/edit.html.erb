@@ -1,0 +1,75 @@
+<% content_for :title, "Account settings" %>
+
+<section class="mx-auto flex w-full max-w-4xl flex-col gap-8 lg:flex-row">
+  <div class="flex-1 rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+    <header class="mb-6">
+      <h1 class="text-2xl font-semibold text-slate-900">Update account</h1>
+      <p class="mt-2 text-sm text-slate-500">Change your email or password. Leave password fields blank to keep your current password.</p>
+    </header>
+
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <%= form_with model: resource, scope: resource_name, url: registration_path(resource_name), method: :put, data: { turbo: false }, class: "space-y-6" do |form| %>
+      <div class="space-y-2">
+        <%= form.label :email, class: "block text-sm font-medium text-slate-700" %>
+        <%= form.email_field :email, autofocus: true, autocomplete: "email", class: "block w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+      </div>
+
+      <div class="space-y-2">
+        <div class="flex items-center justify-between">
+          <%= form.label :password, class: "block text-sm font-medium text-slate-700" %>
+          <span class="text-xs text-slate-500">Leave blank to keep current password</span>
+        </div>
+        <%= form.password_field :password, autocomplete: "new-password", class: "block w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+      </div>
+
+      <div class="space-y-2">
+        <%= form.label :password_confirmation, class: "block text-sm font-medium text-slate-700" %>
+        <%= form.password_field :password_confirmation, autocomplete: "new-password", class: "block w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+      </div>
+
+      <div class="space-y-2">
+        <%= form.label :current_password, class: "block text-sm font-medium text-slate-700" %>
+        <%= form.password_field :current_password, autocomplete: "current-password", class: "block w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+        <p class="text-xs text-slate-500">We need your current password to confirm changes.</p>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <%= link_to "Back", root_path, class: "rounded-md border border-transparent px-3 py-2 text-sm font-medium text-slate-600 transition hover:text-slate-800" %>
+        <%= form.submit "Save changes", class: "rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="flex-1 rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+    <header class="mb-6">
+      <h2 class="text-xl font-semibold text-slate-900">Medications</h2>
+      <p class="mt-2 text-sm text-slate-500">Keep your go-to medications up to date. They appear as options when logging migraines.</p>
+    </header>
+
+    <div class="space-y-4">
+      <% if current_user.medications.exists? %>
+        <ul class="space-y-3">
+          <% current_user.medications.order(:name).each do |medication| %>
+            <li class="flex items-center justify-between rounded-lg border border-slate-200 px-4 py-3">
+              <div>
+                <p class="text-sm font-medium text-slate-900"><%= medication.name %></p>
+              </div>
+              <%= button_to "Remove", medication_path(medication), method: :delete, data: { turbo_confirm: "Remove #{medication.name}?" }, class: "rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:border-rose-300 hover:text-rose-600" %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="rounded-md border border-dashed border-slate-300 px-4 py-6 text-center text-sm text-slate-500">No medications yet. Use the form below to add one.</p>
+      <% end %>
+
+      <div class="border-t border-slate-200 pt-4">
+        <%= form_with model: Medication.new, url: medications_path, data: { turbo: false }, class: "flex flex-col gap-3 sm:flex-row" do |form| %>
+          <%= form.label :name, "Medication name", class: "sr-only" %>
+          <%= form.text_field :name, placeholder: "Medication name", class: "flex-1 rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+          <%= form.submit "Add", class: "rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>

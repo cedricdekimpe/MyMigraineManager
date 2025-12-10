@@ -19,7 +19,7 @@ class MigraineLoggingTest < ApplicationSystemTestCase
       select "Migraine (M)", from: "Nature"
       fill_in "Intensity (0-10)", with: 7
       check "On menstrual cycle"
-      fill_in "Medication", with: "Ibuprofen"
+      select "Ibuprofen", from: "Medication"
       click_button "Save migraine"
 
       assert_text "Migraine entry saved."
@@ -33,7 +33,7 @@ class MigraineLoggingTest < ApplicationSystemTestCase
         assert_text "Yes"
       end
       within "td[data-day='10'][data-attribute='medication']" do
-        assert_text "Ibuprofen"
+        assert_selector "span[title='Ibuprofen']", text: "I"
       end
     end
   end

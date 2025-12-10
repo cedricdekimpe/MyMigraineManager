@@ -27,4 +27,12 @@ module MigrainesHelper
       ["bg-sky-100", "bg-sky-200"]
     end
   end
+
+  def medication_display(migraine)
+    return "–" unless migraine&.medication
+
+    content_tag(:span, migraine.medication.abbreviation,
+      title: migraine.medication.name,
+      class: "inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/60 text-xs font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200")
+  end
 end

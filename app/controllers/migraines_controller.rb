@@ -1,6 +1,7 @@
 class MigrainesController < ApplicationController
   before_action :set_current_month, only: :index
   before_action :set_days, only: %i[index yearly]
+  before_action :load_medications, only: %i[new create]
 
   def index
     migraines = current_user.migraines.for_month(@current_month)
@@ -58,6 +59,10 @@ class MigrainesController < ApplicationController
     @days = (1..31).to_a
   end
 
+  def load_medications
+    @medications = current_user.medications.order(:name)
+  end
+
   def extract_year
     return Date.current.year if params[:year].blank?
 
@@ -71,6 +76,6 @@ class MigrainesController < ApplicationController
   end
 
   def migraine_params
-    params.require(:migraine).permit(:occurred_on, :nature, :intensity, :on_period, :medication)
+    params.require(:migraine).permit(:occurred_on, :nature, :intensity, :on_period, :medication_id)
   end
 end

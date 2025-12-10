@@ -10,16 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_10_041503) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_10_043844) do
+  create_table "medications", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id", "name"], name: "index_medications_on_user_id_and_name", unique: true
+    t.index ["user_id"], name: "index_medications_on_user_id"
+  end
+
   create_table "migraines", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "intensity", null: false
-    t.string "medication"
+    t.integer "medication_id"
     t.string "nature", null: false
     t.date "occurred_on", null: false
     t.boolean "on_period", default: false, null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
+    t.index ["medication_id"], name: "index_migraines_on_medication_id"
     t.index ["user_id", "occurred_on"], name: "index_migraines_on_user_id_and_occurred_on", unique: true
     t.index ["user_id"], name: "index_migraines_on_user_id"
   end
@@ -36,5 +46,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_10_041503) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "medications", "users"
+  add_foreign_key "migraines", "medications"
   add_foreign_key "migraines", "users"
 end

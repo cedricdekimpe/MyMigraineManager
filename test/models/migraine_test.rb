@@ -22,4 +22,14 @@ class MigraineTest < ActiveSupport::TestCase
     assert_not migraine.valid?
     assert_includes migraine.errors[:intensity], "must be less than or equal to 10"
   end
+
+  test "medication must belong to user" do
+    other_user = User.create!(email: "other@example.com", password: "password123", password_confirmation: "password123")
+    foreign_medication = other_user.medications.first
+
+    migraine = @user.migraines.build(occurred_on: Date.current, nature: "M", intensity: 4, on_period: false, medication: foreign_medication)
+
+    assert_not migraine.valid?
+    assert_includes migraine.errors[:medication], "must belong to you"
+  end
 end
