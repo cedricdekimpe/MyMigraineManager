@@ -1,0 +1,42 @@
+<% content_for :title, "Log migraine" %>
+
+<section class="mx-auto w-full max-w-2xl rounded-xl border border-slate-200 bg-white p-8 shadow-sm">
+  <header class="mb-6">
+    <h1 class="text-2xl font-semibold text-slate-900">Log a migraine</h1>
+    <p class="mt-2 text-sm text-slate-500">Capture key details to track patterns over time.</p>
+  </header>
+
+  <%= render "shared/form_errors", object: @migraine %>
+
+  <%= form_with model: @migraine, class: "mt-6 space-y-6" do |form| %>
+    <div class="space-y-2">
+      <%= form.label :occurred_on, "Date", class: "block text-sm font-medium text-slate-700" %>
+      <%= form.date_field :occurred_on, class: "block w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+    </div>
+
+    <div class="space-y-2">
+      <%= form.label :nature, class: "block text-sm font-medium text-slate-700" %>
+      <%= form.select :nature, Migraine::NATURE_OPTIONS.map { |value| [Migraine::NATURE_LABELS[value], value] }, {}, class: "block w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+    </div>
+
+    <div class="space-y-2">
+      <%= form.label :intensity, "Intensity (0-10)", class: "block text-sm font-medium text-slate-700" %>
+      <%= form.number_field :intensity, in: 0..10, class: "block w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <%= form.check_box :on_period, class: "h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500" %>
+      <%= form.label :on_period, "On menstrual cycle", class: "text-sm font-medium text-slate-700" %>
+    </div>
+
+    <div class="space-y-2">
+      <%= form.label :medication, class: "block text-sm font-medium text-slate-700" %>
+      <%= form.text_field :medication, placeholder: "Ibuprofen, Triptan, etc.", class: "block w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+    </div>
+
+    <div class="flex items-center justify-between">
+      <%= link_to "Cancel", migraines_path, class: "rounded-md border border-transparent px-3 py-2 text-sm font-medium text-slate-600 transition hover:text-slate-800" %>
+      <%= form.submit "Save migraine", class: "rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700" %>
+    </div>
+  <% end %>
+</section>

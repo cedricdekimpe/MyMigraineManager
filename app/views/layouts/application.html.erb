@@ -29,6 +29,7 @@
         <%= link_to "My Migraine Manager", root_path, class: "text-lg font-semibold text-slate-900" %>
         <nav class="flex items-center gap-3 text-sm">
           <% if user_signed_in? %>
+            <%= link_to "Migraine log", migraines_path, class: "rounded-md border border-transparent px-3 py-1.5 font-medium text-slate-700 transition hover:text-slate-900" %>
             <span class="text-slate-500">Signed in as <%= current_user.email %></span>
             <%= button_to "Sign out", destroy_user_session_path,
                 method: :delete,
