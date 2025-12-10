@@ -27,16 +27,20 @@ module Migraines
     private
 
     def document
-      @document ||= Prawn::Document.new(page_layout: :landscape, margin: 36) do |pdf|
-        months.each_with_index do |month, index|
-          pdf.start_new_page unless index.zero?
-          build_header(pdf)
-          build_month_section(pdf, month)
+      @document ||= Prawn::Document.new(page_layout: :landscape, margin: 24) do |pdf|
+        months.each_slice(3).with_index do |month_group, group_index|
+          pdf.start_new_page unless group_index.zero?
+          build_page_header(pdf)
+
+          month_group.each_with_index do |month, index|
+            build_month_section(pdf, month)
+            pdf.move_down 16 unless index == month_group.size - 1
+          end
         end
       end
     end
 
-    def build_header(pdf)
+    def build_page_header(pdf)
       pdf.text "Migraine Overview", size: 20, style: :bold, align: :left
       pdf.move_down 4
       pdf.text "Year: #{year}", size: 12
