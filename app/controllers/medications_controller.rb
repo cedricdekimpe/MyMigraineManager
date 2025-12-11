@@ -3,7 +3,7 @@ class MedicationsController < ApplicationController
     medication = current_user.medications.new(medication_params)
 
     if medication.save
-      redirect_to edit_user_registration_path, notice: "Medication added."
+      redirect_to edit_user_registration_path, notice: t('flash.medication_created')
     else
       redirect_to edit_user_registration_path, alert: medication.errors.full_messages.to_sentence
     end
@@ -13,9 +13,9 @@ class MedicationsController < ApplicationController
     medication = current_user.medications.find(params[:id])
 
     if medication.destroy
-      redirect_to edit_user_registration_path, notice: "Medication removed."
+      redirect_to edit_user_registration_path, notice: t('flash.medication_deleted')
     else
-      redirect_to edit_user_registration_path, alert: "Medication could not be removed."
+      redirect_to edit_user_registration_path, alert: medication.errors.full_messages.to_sentence
     end
   end
 

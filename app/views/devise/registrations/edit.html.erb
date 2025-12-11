@@ -1,50 +1,50 @@
-<% content_for :title, "Account settings" %>
+<% content_for :title, t('account.edit_title') %>
 
 <section class="mx-auto flex w-full max-w-4xl flex-col gap-8 lg:flex-row">
   <div class="flex-1 rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
     <header class="mb-6">
-      <h1 class="text-2xl font-semibold text-slate-900">Update account</h1>
-      <p class="mt-2 text-sm text-slate-500">Change your email or password. Leave password fields blank to keep your current password.</p>
+      <h1 class="text-2xl font-semibold text-slate-900"><%= t('account.account_info') %></h1>
+      <p class="mt-2 text-sm text-slate-500"><%= t('account.update_email_password') %></p>
     </header>
 
     <%= render "devise/shared/error_messages", resource: resource %>
 
     <%= form_with model: resource, scope: resource_name, url: registration_path(resource_name), method: :put, data: { turbo: false }, class: "space-y-6" do |form| %>
       <div class="space-y-2">
-        <%= form.label :email, class: "block text-sm font-medium text-slate-700" %>
+        <%= form.label :email, t('account.email'), class: "block text-sm font-medium text-slate-700" %>
         <%= form.email_field :email, autofocus: true, autocomplete: "email", class: "block w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
       </div>
 
       <div class="space-y-2">
         <div class="flex items-center justify-between">
-          <%= form.label :password, class: "block text-sm font-medium text-slate-700" %>
-          <span class="text-xs text-slate-500">Leave blank to keep current password</span>
+          <%= form.label :password, t('account.password'), class: "block text-sm font-medium text-slate-700" %>
+          <span class="text-xs text-slate-500"><%= t('account.password_hint') %></span>
         </div>
         <%= form.password_field :password, autocomplete: "new-password", class: "block w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
       </div>
 
       <div class="space-y-2">
-        <%= form.label :password_confirmation, class: "block text-sm font-medium text-slate-700" %>
+        <%= form.label :password_confirmation, t('account.password_confirmation'), class: "block text-sm font-medium text-slate-700" %>
         <%= form.password_field :password_confirmation, autocomplete: "new-password", class: "block w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
       </div>
 
       <div class="space-y-2">
-        <%= form.label :current_password, class: "block text-sm font-medium text-slate-700" %>
+        <%= form.label :current_password, t('account.current_password'), class: "block text-sm font-medium text-slate-700" %>
         <%= form.password_field :current_password, autocomplete: "current-password", class: "block w-full rounded-md border border-slate-300 px-3 py-2 text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
-        <p class="text-xs text-slate-500">We need your current password to confirm changes.</p>
+        <p class="text-xs text-slate-500"><%= t('account.current_password_hint') %></p>
       </div>
 
       <div class="flex items-center justify-between">
-        <%= link_to "Back", root_path, class: "rounded-md border border-transparent px-3 py-2 text-sm font-medium text-slate-600 transition hover:text-slate-800" %>
-        <%= form.submit "Save changes", class: "rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700" %>
+        <%= link_to t('common.back'), root_path, class: "rounded-md border border-transparent px-3 py-2 text-sm font-medium text-slate-600 transition hover:text-slate-800" %>
+        <%= form.submit t('account.update_account'), class: "rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700" %>
       </div>
     <% end %>
   </div>
 
   <div class="flex-1 rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
     <header class="mb-6">
-      <h2 class="text-xl font-semibold text-slate-900">Medications</h2>
-      <p class="mt-2 text-sm text-slate-500">Keep your go-to medications up to date. They appear as options when logging migraines.</p>
+      <h2 class="text-xl font-semibold text-slate-900"><%= t('account.medications_title') %></h2>
+      <p class="mt-2 text-sm text-slate-500"><%= t('account.medications_description') %></p>
     </header>
 
     <div class="space-y-4">
@@ -55,19 +55,19 @@
               <div>
                 <p class="text-sm font-medium text-slate-900"><%= medication.name %></p>
               </div>
-              <%= button_to "Remove", medication_path(medication), method: :delete, data: { turbo_confirm: "Remove #{medication.name}?" }, class: "rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:border-rose-300 hover:text-rose-600" %>
+              <%= button_to t('common.delete'), medication_path(medication), method: :delete, data: { turbo_confirm: "#{t('common.delete')} #{medication.name}?" }, class: "rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:border-rose-300 hover:text-rose-600" %>
             </li>
           <% end %>
         </ul>
       <% else %>
-        <p class="rounded-md border border-dashed border-slate-300 px-4 py-6 text-center text-sm text-slate-500">No medications yet. Use the form below to add one.</p>
+        <p class="rounded-md border border-dashed border-slate-300 px-4 py-6 text-center text-sm text-slate-500"><%= t('account.no_medications') %></p>
       <% end %>
 
       <div class="border-t border-slate-200 pt-4">
         <%= form_with model: Medication.new, url: medications_path, data: { turbo: false }, class: "flex flex-col gap-3 sm:flex-row" do |form| %>
-          <%= form.label :name, "Medication name", class: "sr-only" %>
-          <%= form.text_field :name, placeholder: "Medication name", class: "flex-1 rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
-          <%= form.submit "Add", class: "rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700" %>
+          <%= form.label :name, t('account.medication_name'), class: "sr-only" %>
+          <%= form.text_field :name, placeholder: t('account.medication_name'), class: "flex-1 rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500" %>
+          <%= form.submit t('account.add'), class: "rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700" %>
         <% end %>
       </div>
     </div>
@@ -76,8 +76,8 @@
 
 <section class="mx-auto mt-8 w-full max-w-4xl rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
   <header class="mb-6">
-    <h2 class="text-xl font-semibold text-slate-900">Data Management</h2>
-    <p class="mt-2 text-sm text-slate-500">Export or import your migraine and medication data</p>
+    <h2 class="text-xl font-semibold text-slate-900"><%= t('account.data_management_title') %></h2>
+    <p class="mt-2 text-sm text-slate-500"><%= t('account.data_management_description') %></p>
   </header>
 
   <div class="grid gap-6 md:grid-cols-2">
@@ -89,10 +89,10 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/>
           </svg>
         </div>
-        <h3 class="text-lg font-semibold text-slate-900">Export Data</h3>
+        <h3 class="text-lg font-semibold text-slate-900"><%= t('account.export_title') %></h3>
       </div>
-      <p class="mb-4 text-sm text-slate-600">Download all your migraines and medications as a JSON file. Use this to create backups or transfer data.</p>
-      <%= button_to "Export All Data", exports_path, 
+      <p class="mb-4 text-sm text-slate-600"><%= t('account.export_description') %></p>
+      <%= button_to t('account.export_button'), exports_path, 
             method: :post,
             data: { turbo: false },
             class: "w-full rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700" %>
@@ -106,10 +106,10 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
           </svg>
         </div>
-        <h3 class="text-lg font-semibold text-slate-900">Import Data</h3>
+        <h3 class="text-lg font-semibold text-slate-900"><%= t('account.import_title') %></h3>
       </div>
-      <p class="mb-4 text-sm text-slate-600">Upload a previously exported JSON file to restore your data. Existing entries will be preserved.</p>
-      <%= link_to "Import from File", new_import_path, 
+      <p class="mb-4 text-sm text-slate-600"><%= t('account.import_description') %></p>
+      <%= link_to t('account.import_button'), new_import_path, 
             class: "block w-full rounded-md border border-blue-600 bg-white px-4 py-2 text-center text-sm font-semibold text-blue-600 transition hover:bg-blue-50" %>
     </div>
   </div>
@@ -121,7 +121,7 @@
       </svg>
       <div class="ml-3">
         <p class="text-sm text-amber-800">
-          <strong>Backup recommendation:</strong> Export your data regularly to prevent data loss. Store backups in a secure location.
+          <strong><%= t('account.backup_warning') %></strong> <%= t('account.backup_text') %>
         </p>
       </div>
     </div>

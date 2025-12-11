@@ -27,10 +27,12 @@ class StatsController < ApplicationController
     end
     
     # Distribution by day of week
+    day_order = %w[monday tuesday wednesday thursday friday saturday sunday]
     @day_of_week_data = @migraines
-      .group_by { |m| m.occurred_on.strftime("%A") }
+      .group_by { |m| m.occurred_on.wday }
       .transform_values(&:count)
-      .sort_by { |day, _| Date::DAYNAMES.index(day) }
+      .sort_by { |wday, _| wday }
+      .map { |wday, count| [I18n.t("days.#{day_order[wday == 0 ? 6 : wday - 1]}"), count] }
     
     # Medication usage
     @medication_data = @migraines

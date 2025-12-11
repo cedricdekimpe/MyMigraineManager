@@ -1,0 +1,213 @@
+fr:
+  # Navigation
+  navigation:
+    migraine_log: "Journal des migraines"
+    yearly_overview: "Vue annuelle"
+    statistics: "Statistiques"
+    account: "Compte"
+    signed_in_as: "Connecté en tant que %{email}"
+    sign_out: "Déconnexion"
+    sign_in: "Connexion"
+    create_account: "Créer un compte"
+    language: "Langue"
+    
+  # Home page
+  home:
+    tagline: "Prenez le contrôle de vos migraines"
+    description: "Enregistrez les épisodes, suivez l'efficacité des médicaments et identifiez les tendances avec des calendriers mensuels et annuels conçus pour les personnes souffrant de migraines."
+    feature_calendars_title: "Calendriers visuels"
+    feature_calendars_desc: "Capturez chaque migraine sur des vues mensuelles et annuelles avec code couleur. Voyez rapidement où les clusters apparaissent et quels jours restent sans symptômes."
+    feature_medication_title: "Suivi des médicaments"
+    feature_medication_desc: "Enregistrez les traitements qui fonctionnent pour vous, personnalisez les options de médicaments et repérez les tendances concernant le dosage et le temps de soulagement."
+    feature_secure_title: "Sécurisé et privé"
+    feature_secure_desc: "Vos données restent protégées derrière un accès authentifié. Exportez les résumés annuels en PDF pour les partager avec les professionnels de santé quand vous le souhaitez."
+    cta_title: "Prêt à commencer le suivi ?"
+    cta_description: "Construisez une image complète de votre historique de migraines et de votre plan de traitement. Que vous vous prépariez pour une visite chez un spécialiste ou que vous surveilliez votre bien-être quotidien, My Migraine Manager vous donne la structure dont vous avez besoin."
+    view_calendar: "Voir mon calendrier"
+    manage_medications: "Gérer les médicaments"
+    
+  # Migraines
+  migraines:
+    title: "Journal des migraines"
+    current_month: "Mois actuel"
+    previous: "Précédent"
+    next: "Suivant"
+    yearly_view: "Vue annuelle"
+    new_entry: "Nouvelle entrée"
+    log_migraine: "Enregistrer une migraine"
+    log_description: "Capturez les détails clés pour suivre les tendances au fil du temps."
+    date: "Date"
+    nature: "Nature"
+    intensity: "Intensité (0-10)"
+    on_period: "Pendant les menstruations"
+    medication: "Médicament"
+    manage_list: "Gérer la liste"
+    none: "Aucun"
+    cancel: "Annuler"
+    save: "Enregistrer la migraine"
+    edit: "Modifier"
+    delete: "Supprimer"
+    confirm_delete: "Êtes-vous sûr de vouloir supprimer cette entrée de migraine ?"
+    no_migraines: "Aucune migraine enregistrée ce mois-ci"
+    yearly_title: "Vue annuelle"
+    yearly_description: "Vue complète des migraines sur tous les mois"
+    year_label: "Année"
+    export_pdf: "Exporter en PDF"
+    intensity_label: "Intensité : %{value}/10"
+    medication_label: "Médicament : %{name}"
+    
+  # Migraine nature options
+  migraine_nature:
+    M: "Migraine (M)"
+    H: "Céphalée (H)"
+    A: "Migraine avec aura (A)"
+    MA: "Migraine avec aura (MA)"
+    MH: "Migraine avec céphalée (MH)"
+    
+  # Statistics
+  stats:
+    title: "Statistiques des migraines"
+    description: "Aperçus visuels de vos tendances de migraines et de l'utilisation des médicaments"
+    total_migraines: "Total des migraines"
+    with_medication: "Avec médicament"
+    without_medication: "Sans médicament"
+    over_time_title: "Migraines au fil du temps (12 derniers mois)"
+    day_of_week_title: "Migraines par jour de la semaine"
+    medication_usage_title: "Utilisation des médicaments"
+    no_medication_data: "Aucune donnée de médicament disponible pour le moment"
+    number_of_migraines: "Nombre de migraines"
+    
+  # Days of week
+  days:
+    monday: "Lundi"
+    tuesday: "Mardi"
+    wednesday: "Mercredi"
+    thursday: "Jeudi"
+    friday: "Vendredi"
+    saturday: "Samedi"
+    sunday: "Dimanche"
+    
+  # User account
+  account:
+    edit_title: "Paramètres du compte"
+    account_info: "Informations du compte"
+    update_email_password: "Mettez à jour votre adresse e-mail ou votre mot de passe"
+    email: "E-mail"
+    password: "Mot de passe"
+    password_hint: "Laissez vide si vous ne souhaitez pas le modifier"
+    password_confirmation: "Confirmation du mot de passe"
+    current_password: "Mot de passe actuel"
+    current_password_hint: "Nous avons besoin de votre mot de passe actuel pour confirmer les modifications"
+    update_account: "Mettre à jour le compte"
+    cancel_account: "Supprimer mon compte"
+    confirm_cancel: "Êtes-vous sûr ?"
+    medications_title: "Mes médicaments"
+    medications_description: "Gérez les médicaments que vous utilisez pour soulager les migraines"
+    add_medication: "Ajouter un médicament"
+    medication_name: "Nom du médicament"
+    add: "Ajouter"
+    no_medications: "Aucun médicament ajouté pour le moment"
+    data_management_title: "Gestion des données"
+    data_management_description: "Exportez ou importez vos données de migraines et de médicaments"
+    export_title: "Exporter les données"
+    export_description: "Téléchargez toutes vos migraines et médicaments sous forme de fichier JSON. Utilisez ceci pour créer des sauvegardes ou transférer des données."
+    export_button: "Exporter toutes les données"
+    import_title: "Importer des données"
+    import_description: "Téléchargez un fichier JSON précédemment exporté pour restaurer vos données. Les entrées existantes seront préservées."
+    import_button: "Importer depuis un fichier"
+    backup_warning: "Recommandation de sauvegarde :"
+    backup_text: "Exportez vos données régulièrement pour éviter la perte de données. Stockez les sauvegardes dans un endroit sécurisé."
+    
+  # Import/Export
+  import:
+    title: "Importer des données"
+    description: "Téléchargez un fichier de sauvegarde pour restaurer vos migraines et médicaments"
+    file_label: "Sélectionner le fichier de sauvegarde"
+    choose_file: "Choisir un fichier"
+    import_button: "Importer les données"
+    back: "Retour au compte"
+    warning_title: "Important :"
+    warning_duplicates: "Les entrées en double (basées sur la date) seront automatiquement ignorées"
+    warning_format: "Seuls les fichiers JSON exportés depuis My Migraine Manager sont pris en charge"
+    
+  # Flash messages
+  flash:
+    migraine_created: "L'entrée de migraine a été enregistrée avec succès."
+    migraine_updated: "L'entrée de migraine a été mise à jour avec succès."
+    migraine_deleted: "L'entrée de migraine a été supprimée avec succès."
+    medication_created: "Le médicament a été ajouté avec succès."
+    medication_deleted: "Le médicament a été supprimé avec succès."
+    export_file_missing: "Veuillez sélectionner un fichier à importer."
+    import_invalid_json: "Fichier JSON invalide. Veuillez vérifier le format du fichier."
+    import_wrong_user: "Ce fichier de sauvegarde ne correspond pas à votre compte (e-mail : %{email})."
+    import_success: "Importation réussie de %{medications} médicaments et %{migraines} migraines."
+    import_error: "Erreur lors de l'importation des données : %{error}"
+    
+  # Form errors
+  errors:
+    form_title: "Veuillez corriger les erreurs suivantes :"
+    
+  # Common
+  common:
+    save: "Enregistrer"
+    cancel: "Annuler"
+    delete: "Supprimer"
+    edit: "Modifier"
+    back: "Retour"
+    loading: "Chargement..."
+    
+  # Date formats
+  date:
+    formats:
+      default: "%d/%m/%Y"
+      long: "%d %B %Y"
+      short: "%d %b"
+      month_year: "%B %Y"
+    abbr_day_names:
+      - dim
+      - lun
+      - mar
+      - mer
+      - jeu
+      - ven
+      - sam
+    abbr_month_names:
+      - ~
+      - jan
+      - fév
+      - mar
+      - avr
+      - mai
+      - juin
+      - juil
+      - août
+      - sep
+      - oct
+      - nov
+      - déc
+    day_names:
+      - dimanche
+      - lundi
+      - mardi
+      - mercredi
+      - jeudi
+      - vendredi
+      - samedi
+    month_names:
+      - ~
+      - janvier
+      - février
+      - mars
+      - avril
+      - mai
+      - juin
+      - juillet
+      - août
+      - septembre
+      - octobre
+      - novembre
+      - décembre
+    order:
+      - :day
+      - :month
+      - :year

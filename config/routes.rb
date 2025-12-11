@@ -1,30 +1,37 @@
 Rails.application.routes.draw do
-  devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # Locale scope for internationalization
+  scope "(:locale)", locale: /en|fr/ do
+    devise_for :users
+    
+    # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
+    # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
+    # Can be used by load balancers and uptime monitors to verify that the app is live.
+    get "up" => "rails/health#show", as: :rails_health_check
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+    # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
+    # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+    # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  resources :migraines, only: %i[index new create] do
-    collection do
-      get :yearly
+    resources :migraines, only: %i[index new create] do
+      collection do
+        get :yearly
+      end
     end
+
+    resources :medications, only: %i[create destroy]
+
+    resources :stats, only: [:index]
+
+    # Data export/import
+    post "exports", to: "exports#create", as: :exports
+    get "imports/new", to: "imports#new", as: :new_import
+    post "imports", to: "imports#create", as: :imports
+
+    # Defines the root path route ("/")
+    root "home#index"
   end
-
-  resources :medications, only: %i[create destroy]
-
-  resources :stats, only: [:index]
-
-  # Data export/import
-  post "exports", to: "exports#create", as: :exports
-  get "imports/new", to: "imports#new", as: :new_import
-  post "imports", to: "imports#create", as: :imports
-
-  # Defines the root path route ("/")
-  root "home#index"
+  
+  # Redirect root to default locale
+  root to: redirect("/#{I18n.default_locale}", status: 302), as: :redirected_root
 end

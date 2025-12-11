@@ -23,30 +23,30 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-slate-50 min-h-screen">
+  <body class="bg-slate-50 min-h-screen flex flex-col">
     <header class="border-b border-slate-200 bg-white">
       <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
         <%= link_to "My Migraine Manager", root_path, class: "text-lg font-semibold text-slate-900" %>
         <nav class="flex items-center gap-3 text-sm">
           <% if user_signed_in? %>
-            <%= link_to "Migraine log", migraines_path, class: "rounded-md border border-transparent px-3 py-1.5 font-medium text-slate-700 transition hover:text-slate-900" %>
-            <%= link_to "Yearly overview", yearly_migraines_path, class: "rounded-md border border-transparent px-3 py-1.5 font-medium text-slate-700 transition hover:text-slate-900" %>
-            <%= link_to "Statistics", stats_path, class: "rounded-md border border-transparent px-3 py-1.5 font-medium text-slate-700 transition hover:text-slate-900" %>
-            <%= link_to "Account", edit_user_registration_path, class: "rounded-md border border-transparent px-3 py-1.5 font-medium text-slate-700 transition hover:text-slate-900" %>
-            <span class="text-slate-500">Signed in as <%= current_user.email %></span>
-            <%= button_to "Sign out", destroy_user_session_path,
+            <%= link_to t('navigation.migraine_log'), migraines_path, class: "rounded-md border border-transparent px-3 py-1.5 font-medium text-slate-700 transition hover:text-slate-900" %>
+            <%= link_to t('navigation.yearly_overview'), yearly_migraines_path, class: "rounded-md border border-transparent px-3 py-1.5 font-medium text-slate-700 transition hover:text-slate-900" %>
+            <%= link_to t('navigation.statistics'), stats_path, class: "rounded-md border border-transparent px-3 py-1.5 font-medium text-slate-700 transition hover:text-slate-900" %>
+            <%= link_to t('navigation.account'), edit_user_registration_path, class: "rounded-md border border-transparent px-3 py-1.5 font-medium text-slate-700 transition hover:text-slate-900" %>
+            <span class="text-slate-500"><%= t('navigation.signed_in_as', email: current_user.email) %></span>
+            <%= button_to t('navigation.sign_out'), destroy_user_session_path,
                 method: :delete,
                 class: "rounded-md border border-slate-300 bg-white px-3 py-1.5 font-medium text-slate-700 transition hover:border-slate-400 hover:text-slate-900",
                 form: { class: "inline-block" } %>
           <% else %>
-            <%= link_to "Sign in", new_user_session_path, class: "rounded-md border border-transparent px-3 py-1.5 font-medium text-slate-700 transition hover:text-slate-900" %>
-            <%= link_to "Create account", new_user_registration_path, class: "rounded-md bg-emerald-600 px-3 py-1.5 font-semibold text-white transition hover:bg-emerald-700" %>
+            <%= link_to t('navigation.sign_in'), new_user_session_path, class: "rounded-md border border-transparent px-3 py-1.5 font-medium text-slate-700 transition hover:text-slate-900" %>
+            <%= link_to t('navigation.create_account'), new_user_registration_path, class: "rounded-md bg-emerald-600 px-3 py-1.5 font-semibold text-white transition hover:bg-emerald-700" %>
           <% end %>
         </nav>
       </div>
     </header>
 
-    <main class="mx-auto flex w-full max-w-4xl flex-col gap-6 px-5 py-10">
+    <main class="mx-auto flex w-full max-w-4xl flex-col gap-6 px-5 py-10 flex-1">
       <% flash.each do |type, message| %>
         <% next if message.blank? %>
         <% tone = type.to_sym == :alert ? "border-rose-200 bg-rose-50 text-rose-700" : "border-emerald-200 bg-emerald-50 text-emerald-700" %>
@@ -57,5 +57,16 @@
 
       <%= yield %>
     </main>
+
+    <footer class="mt-auto border-t border-slate-200 bg-white">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
+        <p class="text-xs text-slate-500">© <%= Time.current.year %> My Migraine Manager</p>
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-slate-500"><%= t('navigation.language') || 'Language' %>:</span>
+          <%= link_to "EN", url_for(locale: :en), class: "rounded px-2 py-1 text-xs font-medium #{I18n.locale == :en ? 'bg-emerald-600 text-white' : 'text-slate-600 hover:bg-slate-100'}" %>
+          <%= link_to "FR", url_for(locale: :fr), class: "rounded px-2 py-1 text-xs font-medium #{I18n.locale == :fr ? 'bg-emerald-600 text-white' : 'text-slate-600 hover:bg-slate-100'}" %>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

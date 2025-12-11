@@ -44,7 +44,7 @@ class MigrainesController < ApplicationController
     @migraine = current_user.migraines.new(migraine_params)
 
     if @migraine.save
-      redirect_to migraines_path(month: @migraine.occurred_on.strftime("%Y-%m")), notice: "Migraine entry saved."
+      redirect_to migraines_path(month: @migraine.occurred_on.strftime("%Y-%m")), notice: t('flash.migraine_created')
     else
       render :new, status: :unprocessable_entity
     end

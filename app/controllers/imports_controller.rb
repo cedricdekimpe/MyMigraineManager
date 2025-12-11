@@ -6,7 +6,7 @@ class ImportsController < ApplicationController
 
   def create
     unless params[:file].present?
-      redirect_to new_import_path, alert: "Please select a file to import" and return
+      redirect_to new_import_path, alert: t('flash.export_file_missing') and return
     end
 
     begin
@@ -15,7 +15,12 @@ class ImportsController < ApplicationController
 
       # Validate data structure
       unless import_data.is_a?(Hash) && import_data['migraines'].is_a?(Array)
-        redirect_to new_import_path, alert: "Invalid file format" and return
+        redirect_to new_import_path, alert: t('flash.import_invalid_json') and return
+      end
+
+      # Validate user email if present
+      if import_data['user_email'].present? && import_data['user_email'] != current_user.email
+        redirect_to new_import_path, alert: t('flash.import_wrong_user', email: import_data['user_email']) and return
       end
 
       imported_counts = { medications: 0, migraines: 0 }
@@ -29,7 +34,7 @@ class ImportsController < ApplicationController
             # Find or create medication by name
             medication = current_user.medications.find_or_create_by(name: med_data['name'])
             medication_mapping[med_data['name']] = medication
-            imported_counts[:medications] += 1
+            imported_counts[:medications] += 1 unless medication.previously_new_record? == false
           end
         end
 
@@ -55,11 +60,11 @@ class ImportsController < ApplicationController
       end
 
       redirect_to edit_user_registration_path, 
-        notice: "Successfully imported #{imported_counts[:migraines]} migraines and #{imported_counts[:medications]} medications"
+        notice: t('flash.import_success', medications: imported_counts[:medications], migraines: imported_counts[:migraines])
     rescue JSON::ParserError
-      redirect_to new_import_path, alert: "Invalid JSON file"
+      redirect_to new_import_path, alert: t('flash.import_invalid_json')
     rescue => e
-      redirect_to new_import_path, alert: "Import failed: #{e.message}"
+      redirect_to new_import_path, alert: t('flash.import_error', error: e.message)
     end
   end
 end
