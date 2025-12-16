@@ -1,13 +1,13 @@
 # Name of your application. Used to uniquely configure containers.
 service: my_migraine_manager
 
-# Name of the container image (use your-user/app-name on external registries).
-image: my_migraine_manager
+# Name of the container image (use your-user/app
+image: ghcr.io/cedricdekimpe/my_migraine_manager
 
 # Deploy to these servers.
 servers:
   web:
-    - 192.168.0.1
+    - 77.42.44.3
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -20,9 +20,9 @@ servers:
 #
 # Don't use this when deploying to multiple web servers (then you have to terminate SSL at your load balancer).
 #
-# proxy:
-#   ssl: true
-#   host: app.example.com
+proxy:
+  ssl: true
+  host: migraine-tracker.eu
 
 # Where you keep your container images.
 registry:
@@ -30,11 +30,12 @@ registry:
   server: localhost:5555
 
   # Needed for authenticated registries.
-  # username: your-user
-
+  username:
+    - KAMAL_REGISTRY_USERNAME
+  # 
   # Always use an access token rather than real password when possible.
-  # password:
-  #   - KAMAL_REGISTRY_PASSWORD
+  password:
+    - KAMAL_REGISTRY_PASSWORD
 
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:
