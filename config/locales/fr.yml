@@ -5,11 +5,21 @@ fr:
     yearly_overview: "Vue annuelle"
     statistics: "Statistiques"
     account: "Compte"
+    admin: "Admin"
     signed_in_as: "Connecté en tant que %{email}"
     sign_out: "Déconnexion"
     sign_in: "Connexion"
     create_account: "Créer un compte"
     language: "Langue"
+    
+  # Admin
+  admin:
+    access_denied: "Vous n'avez pas la permission d'accéder à l'espace d'administration."
+    dashboard:
+      title: "Tableau de bord Admin"
+      subtitle: "Gérez les données et les utilisateurs de votre application"
+      manage: "Gérer"
+      quick_actions: "Actions rapides"
     
   # Home page
   home:

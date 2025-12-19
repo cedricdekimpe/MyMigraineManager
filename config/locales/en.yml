@@ -5,11 +5,21 @@ en:
     yearly_overview: "Yearly overview"
     statistics: "Statistics"
     account: "Account"
+    admin: "Admin"
     signed_in_as: "Signed in as %{email}"
     sign_out: "Sign out"
     sign_in: "Sign in"
     create_account: "Create account"
     language: "Language"
+    
+  # Admin
+  admin:
+    access_denied: "You do not have permission to access the admin area."
+    dashboard:
+      title: "Admin Dashboard"
+      subtitle: "Manage your application data and users"
+      manage: "Manage"
+      quick_actions: "Quick Actions"
     
   # Home page
   home:

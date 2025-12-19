@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   # Locale scope for internationalization
   scope "(:locale)", locale: /en|fr/ do
     devise_for :users

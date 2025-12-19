@@ -7,6 +7,8 @@ class User < ApplicationRecord
   has_many :migraines, dependent: :destroy
   has_many :medications, dependent: :destroy
 
+  scope :admins, -> { where(admin: true) }
+
   after_create :ensure_default_medications
 
   private
